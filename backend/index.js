@@ -16,7 +16,6 @@ app.use(cors());
 app.use(helmet());
 
 app.listen(process.env.APP_PORT, function (){
-    console.log(">> Server is running (Port " + process.env.APP_PORT + ")");
     app.use("/passenger",passengerRoutes);
     app.use("/driver",driverRoutes);
     app.use("/booking",bookingRoutes);

@@ -45,27 +45,36 @@ const createBooking = async (req, res) => {
 }
 
 const updatePassengerName = async (req, res) => {
-    const { passengerId } = req.params;
-    const { name } = req.body;
-
-    await passengerService.update(passengerId, { name })
+    try {
+        const { passengerId } = req.params;
+        const { name } = req.body;
+        await passengerService.update(passengerId, { name })
+    }
+    catch (err) {
+        res.send(err)
+    }
 }
 
 const getPassengerNameById = async (passengerId) => {
-    const passenger = await passengerService.find(passengerId);
-    return passenger.name;
-}
-
-const deletePassenger = async (req,res) => {
     try{
-        const {passengerId} = req.params;
-        await passengerService.removeBy("_id",passengerId);
-        res.status(httpStatus[404]).send(httpStatus.OK)
+        const passenger = await passengerService.find(passengerId);
+        return passenger.name;
     }
     catch(err) {
+        res.send(err);
+    }
+}
+
+const deletePassenger = async (req, res) => {
+    try {
+        const { passengerId } = req.params;
+        await passengerService.removeBy("_id", passengerId);
+        res.status(httpStatus[404]).send(httpStatus.OK)
+    }
+    catch (err) {
         res.send(err);
     }
 
 }
 
-module.exports = { create, getById, createBooking, updatePassengerName, getAll,getPassengerNameById,deletePassenger };
+module.exports = { create, getById, createBooking, updatePassengerName, getAll, getPassengerNameById, deletePassenger };
